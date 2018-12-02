@@ -1,0 +1,18 @@
+.card > a {
+  color : black;
+}
+
+.card > a:hover {
+  background-color: #343A40;
+  color : white !important;
+  cursor: pointer;
+}
+
+.d-flex {
+  border : 1px solid lightgrey;
+  border-radius: 2px;
+}
+
+#rank {
+  display: none;
+}
