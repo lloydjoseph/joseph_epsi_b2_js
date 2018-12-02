@@ -71,36 +71,105 @@ function getData() {
 
 
 function drawTable() {
+	getData();
+	drawBackground();
+	canvas = document.getElementById("canvas");
+	var PI = Math.PI;
+	var step = 2 * PI / modulo;
+	for (var i = 0; i < modulo; i++)
+	{
+		var x = w/2 + radius * Math.cos((i * step)-PI/2);
+		var y = h/2 + radius * Math.sin((i * step)-PI/2);
+		drawPoint(x,y,'rgb(255,255,0)');
+	}
 
-  // récupère les données du formulaire dans les variables
-  getData();
-  // vide le rectangle
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  // dessine le cercle à partir du rayon
-  drawBackground();
+	for (var i = 0; i < modulo; i++)
+	{
+		var x1 = w/2 + radius * Math.cos((i * step)-PI/2);
+		var y1 = h/2 + radius * Math.sin((i * step)-PI/2);
+		var x2 = w/2 + radius * Math.cos(((i*table%modulo) * step)-PI/2);
+		var y2 = h/2 + radius * Math.sin(((i*table%modulo) * step)-PI/2);
+		drawLine(x1,y1,x2,y2);
+	}
+}
 
-  // calcul l'angle pour modulo points
-  var step = Math.PI * 2 / modulo;
+function drawTableIncrement() {
+	drawBackground();
+	canvas = document.getElementById("canvas");
+	var PI = Math.PI;
+	var step = 2 * PI / modulo;
+	for (var i = 0; i < modulo; i++)
+	{
+		var x = w/2 + radius * Math.cos((i * step)-PI/2);
+		var y = h/2 + radius * Math.sin((i * step)-PI/2);
+		drawPoint(x,y,'rgb(255,255,0)');
+	}
 
-  // pour chaque point
-  for (var i = 0; i < modulo; i++) {
-    // calcul les coordonnées du ième point
-    var x1 = w/2 + radius * Math.cos(i*step - Math.PI / 2);
-    var y1 = h/2 + radius * Math.sin(i*step - Math.PI / 2);
-    //console.log('x='+x+', y='+y);
+	for (var i = 0; i < modulo; i++)
+	{
+		var x1 = w/2 + radius * Math.cos((i * step)-PI/2);
+		var y1 = h/2 + radius * Math.sin((i * step)-PI/2);
+		var x2 = w/2 + radius * Math.cos(((i*table%modulo) * step)-PI/2);
+		var y2 = h/2 + radius * Math.sin(((i*table%modulo) * step)-PI/2);
+		drawLine(x1,y1,x2,y2);
+	}
+}
 
-    // on met le premier point de couleur claire
-    var color = (i === 0) ?  "rgb(255, 255, 0)" : "rgb(0, 0, 0)";
-    // on dessine le point (départ du trait)
-    drawPoint(x1, y1, color);
+var resetLoop = false;
 
-    // on fait le calcul (multiplication) pour le ième point
-    var calcul = i * table % modulo;
-    // calcul des coordonnées du point d'arrivée
-    var x2 = w/2 + radius * Math.cos(calcul*step - Math.PI / 2);
-    var y2 = h/2 + radius * Math.sin(calcul*step - Math.PI / 2);
-
-    // dessin de la ligne
-    drawLine(x1, y1, x2, y2);
+function autoIncrementModulo() {
+  if (modulo == null) {
+    getData();
   }
+  var j = 0;
+  setTimeout(function () {
+    drawTableIncrement();
+    modulo++;
+    showStat();
+    j++;
+    if (j < 1000 && resetLoop == false) {
+      autoIncrementModulo();
+    }
+  }, 50)
+}
+
+function autoIncrementTable() {
+  if (table == null) {
+    getData();
+  }
+  var j = 0;
+  setTimeout(function () {
+    drawTableIncrement();
+    table++;
+    showStat();
+    j++;
+    if (j < 1000 && resetLoop == false) {
+      autoIncrementTable();
+    }
+  }, 50)
+}
+
+function autoIncrementBoth() {
+  if (table == null || modulo == null) {
+    getData();
+  }
+  var j = 0;
+  setTimeout(function () {
+    drawTableIncrement();
+    modulo += 5;
+    table++;
+    showStat();
+    j++;
+    if (j < 1000 && resetLoop == false) {
+      autoIncrementBoth();
+    }
+  }, 50)
+}
+
+function stopFunction() {
+  return resetLoop = true;
+}
+
+function showStat() {
+  document.getElementById("stats").innerHTML = "Table : " + table + " Points : " + modulo;
 }
