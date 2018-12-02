@@ -4,11 +4,15 @@ html, body {
   padding: 0px;
 
   margin: auto;
-  text-align: center;
+  text-align: center;  
 }
 
 #canvas{
   padding: 0;
   margin: auto;
   display: block;
+}
+
+.inputdiv{
+	margin: 20px;
 }
