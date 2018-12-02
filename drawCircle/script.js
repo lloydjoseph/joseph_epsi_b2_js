@@ -93,82 +93,8 @@ function drawTable() {
 	}
 }
 
-function drawTableIncrement() {
-	drawBackground();
-	canvas = document.getElementById("canvas");
-	var PI = Math.PI;
-	var step = 2 * PI / modulo;
-	for (var i = 0; i < modulo; i++)
-	{
-		var x = w/2 + radius * Math.cos((i * step)-PI/2);
-		var y = h/2 + radius * Math.sin((i * step)-PI/2);
-		drawPoint(x,y,'rgb(255,255,0)');
-	}
-
-	for (var i = 0; i < modulo; i++)
-	{
-		var x1 = w/2 + radius * Math.cos((i * step)-PI/2);
-		var y1 = h/2 + radius * Math.sin((i * step)-PI/2);
-		var x2 = w/2 + radius * Math.cos(((i*table%modulo) * step)-PI/2);
-		var y2 = h/2 + radius * Math.sin(((i*table%modulo) * step)-PI/2);
-		drawLine(x1,y1,x2,y2);
-	}
-}
-
 var resetLoop = false;
 
-function autoIncrementModulo() {
-  if (modulo == null) {
-    getData();
-  }
-  var j = 0;
-  setTimeout(function () {
-    drawTableIncrement();
-    modulo++;
-    showStat();
-    j++;
-    if (j < 1000 && resetLoop == false) {
-      autoIncrementModulo();
-    }
-  }, 50)
-}
-
-function autoIncrementTable() {
-  if (table == null) {
-    getData();
-  }
-  var j = 0;
-  setTimeout(function () {
-    drawTableIncrement();
-    table++;
-    showStat();
-    j++;
-    if (j < 1000 && resetLoop == false) {
-      autoIncrementTable();
-    }
-  }, 50)
-}
-
-function autoIncrementBoth() {
-  if (table == null || modulo == null) {
-    getData();
-  }
-  var j = 0;
-  setTimeout(function () {
-    drawTableIncrement();
-    modulo += 5;
-    table++;
-    showStat();
-    j++;
-    if (j < 1000 && resetLoop == false) {
-      autoIncrementBoth();
-    }
-  }, 50)
-}
-
-function stopFunction() {
-  return resetLoop = true;
-}
 
 function showStat() {
   document.getElementById("stats").innerHTML = "Table : " + table + " Points : " + modulo;
