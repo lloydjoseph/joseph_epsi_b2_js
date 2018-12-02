@@ -2,7 +2,7 @@
 
 -Draw Circle 
 
--AJAX
+-AJAX/Leaflet
 
 -API Webaudio
 
